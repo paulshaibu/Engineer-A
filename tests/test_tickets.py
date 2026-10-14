@@ -54,7 +54,22 @@ class TestTickets(unittest.TestCase):
         t2 = self.create("Laptop issue", "low", 1)
         assign_ticket(self.tickets, t1["id"], "Engineer A")
         change_status(self.tickets, t1["id"], "in_progress")
-        self.assertEqual([t["id"] for t in open_work_queue(self.tickets)], [t2["id"]])
+        self.assertEqual(
+            [t["id"] for t in open_work_queue(self.tickets)],
+            [t2["id"]]
+        )
+
+    def test_ticket_ids_are_unique(self):
+        t1 = self.create("Wi-Fi issue")
+        t2 = self.create("Laptop issue")
+        self.assertNotEqual(t1["id"], t2["id"])
+
+    def test_ticket_search(self):
+        self.create("Wi-Fi issue")
+        self.create("Laptop issue")
+        results = search_tickets(self.tickets, "Wi-Fi")
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0]["title"], "Wi-Fi issue")
 
 
 if __name__ == "__main__":
