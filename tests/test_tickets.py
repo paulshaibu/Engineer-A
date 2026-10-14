@@ -72,5 +72,11 @@ class TestTickets(unittest.TestCase):
         self.assertEqual(results[0]["title"], "Wi-Fi issue")
 
 
+    def test_search_returns_empty_for_no_matches(self):
+        self.create("Wi-Fi issue")
+        results = search_tickets(self.tickets, "printer")
+        self.assertEqual(results, [])
+
+
 if __name__ == "__main__":
     unittest.main()
