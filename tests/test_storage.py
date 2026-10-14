@@ -35,7 +35,7 @@ class TestStorage(unittest.TestCase):
     def test_next_ticket_id(self):
         save_tickets(self.path, self.tickets)
         tickets = load_tickets(self.path)
-        t = create_ticket(tickets, "Laptop issue", "Hardware", "low", 1)
+        t = create_ticket(tickets, "Laptop issues", "Hardware", "low", 1)
         self.assertEqual(t["id"], 2)
 
     def test_next_note_id(self):
