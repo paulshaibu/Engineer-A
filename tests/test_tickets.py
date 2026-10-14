@@ -72,5 +72,31 @@ class TestTickets(unittest.TestCase):
         self.assertEqual(results[0]["title"], "Wi-Fi issue")
 
 
+    def test_search_returns_empty_for_no_matches(self):
+        self.create("Wi-Fi issue")
+        results = search_tickets(self.tickets, "printer")
+        self.assertEqual(results, [])
+
+
+    def test_search_is_case_insensitive(self):
+        self.create("Wi-Fi issue")
+        results = search_tickets(self.tickets, "wI-fI")
+        self.assertEqual(len(results), 1)
+
+    def test_search_by_category(self):
+        self.create("Wi-Fi issue")
+        results = search_tickets(self.tickets, "Network")
+        self.assertEqual(len(results), 1)
+
+    def test_search_by_status(self):
+        self.create("Wi-Fi issue")
+        results = search_tickets(self.tickets, "open")
+        self.assertEqual(len(results), 1)
+
+    def test_search_rejects_empty_query(self):
+        with self.assertRaises(ValueError):
+            search_tickets(self.tickets, "")
+
+
 if __name__ == "__main__":
     unittest.main()
