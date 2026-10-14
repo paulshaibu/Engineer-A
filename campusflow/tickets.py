@@ -107,3 +107,17 @@ def open_work_queue(tickets):
         [t for t in tickets if t["status"] == "open"],
         key=lambda t: (order[t["priority"]], t["id"])
     )
+
+
+def search_tickets(tickets, query):
+    if not isinstance(query, str) or not query.strip():
+        raise ValueError("Search query cannot be empty")
+
+    query = query.strip().lower()
+
+    return [
+        ticket for ticket in tickets
+        if query in ticket["title"].lower()
+        or query in ticket["category"].lower()
+        or query in ticket["status"].lower()
+    ]
